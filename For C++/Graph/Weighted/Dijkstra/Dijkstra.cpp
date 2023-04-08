@@ -102,6 +102,7 @@ int main(){
     g.add_edge(0, 1, 2);
     g.add_edge(0, 5, 4);
     g.add_edge(1, 3, 9);
+    g.add_edge(5, 3, 2);
     g.add_edge(3, 4, 1);
     g.add_edge(3, 2, 5);
 
