@@ -7,6 +7,7 @@ struct graph{
     
     void init(long v){
         vertex = v;
+        edge = 0;
         vector<long> zero(vertex, 0);
 
         for(int i=0; i<vertex; i++){
@@ -16,6 +17,7 @@ struct graph{
 
     void add_edge(long vertex1, long vertex2){
         adjMatrix[vertex1][vertex2] = 1;
+        edge++;
     }
 
     void dfs(vector<long> &result, long start){

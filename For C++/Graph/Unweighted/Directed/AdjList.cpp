@@ -7,6 +7,7 @@ struct graph{
     
     void init(long v){
         vertex = v;
+        edge = 0;
 
         for(int i=0; i<vertex; i++){
             adjList.push_back({}); // inserts V ammount of empty vector
@@ -17,6 +18,7 @@ struct graph{
         if(find(adjList[vertex1].begin(), adjList[vertex1].end(), vertex2) != adjList[vertex1].end()) return; // check if vertex already inserted
 
         adjList[vertex1].push_back(vertex2);
+        edge++;
     }
 
     void dfs(vector<long> &result, long start){
