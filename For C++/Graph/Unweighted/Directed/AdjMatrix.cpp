@@ -2,26 +2,26 @@
 using namespace std;
 
 struct graph{
-    long vertex, edge;
+    long vertexCount, edgeCount;
     vector<vector<long>> adjMatrix;
     
     void init(long v){
-        vertex = v;
-        edge = 0;
-        vector<long> zero(vertex, 0);
+        vertexCount = v;
+        edgeCount = 0;
+        vector<long> zero(vertexCount, 0);
 
-        for(int i=0; i<vertex; i++){
+        for(int i=0; i<vertexCount; i++){
             adjMatrix.push_back(zero); // inserts V ammount of empty vector
         }
     }
 
     void add_edge(long vertex1, long vertex2){
         adjMatrix[vertex1][vertex2] = 1;
-        edge++;
+        edgeCount++;
     }
 
     void dfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         stack<long> st;
 
         st.push(start);
@@ -37,7 +37,7 @@ struct graph{
                 visited[temp] = true;
             }
 
-            for(long i=0; i<vertex; i++){
+            for(long i=0; i<vertexCount; i++){
                 if (adjMatrix[temp][i] && !visited[i])
                     st.push(i);
             }
@@ -45,7 +45,7 @@ struct graph{
     }
 
     void bfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         queue<long> q;
 
         q.push(start);
@@ -56,7 +56,7 @@ struct graph{
             long temp = q.front();
             q.pop();
 
-            for(long i=0; i<vertex; i++){
+            for(long i=0; i<vertexCount; i++){
                 if (adjMatrix[temp][i] && !visited[i]){
                     q.push(i);
                     visited[i] = true;

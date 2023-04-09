@@ -2,14 +2,14 @@
 using namespace std;
 
 struct graph{
-    long vertex, edge;
+    long vertexCount, edgeCount;
     vector<vector<pair<long, long>>> adjList;
     
     void init(long v){
-        vertex = v;
-        edge = 0;
+        vertexCount = v;
+        edgeCount = 0;
 
-        for(int i=0; i<vertex; i++){
+        for(int i=0; i<vertexCount; i++){
             adjList.push_back({}); // inserts V ammount of empty vector
         }
     }
@@ -18,11 +18,11 @@ struct graph{
         if(find(adjList[vertex1].begin(), adjList[vertex1].end(), make_pair(vertex2, weight)) != adjList[vertex1].end()) return; // check if vertex already inserted
 
         adjList[vertex1].push_back(make_pair(vertex2, weight));
-        edge++;
+        edgeCount++;
     }
 
     void dfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         stack<long> st;
 
         st.push(start);
@@ -38,15 +38,15 @@ struct graph{
                 visited[temp] = true;
             }
 
-            for(auto it:adjList[temp]){
-                if (!visited[it.first])
-                    st.push(it.first);
+            for(auto vertex:adjList[temp]){
+                if (!visited[vertex.first])
+                    st.push(vertex.first);
             }
         }
     }
 
     void bfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         queue<long> q;
 
         q.push(start);
@@ -57,11 +57,11 @@ struct graph{
             long temp = q.front();
             q.pop();
 
-            for(auto it:adjList[temp]){
-                if (!visited[it.first]){
-                    q.push(it.first);
-                    visited[it.first] = true;
-                    result.push_back(it.first);
+            for(auto vertex:adjList[temp]){
+                if (!visited[vertex.first]){
+                    q.push(vertex.first);
+                    visited[vertex.first] = true;
+                    result.push_back(vertex.first);
                 }
             }
         }

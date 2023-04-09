@@ -2,14 +2,14 @@
 using namespace std;
 
 struct graph{
-    long vertex, edge;
+    long vertexCount, edgeCount;
     vector<vector<long>> adjList;
     
     void init(long v){
-        vertex = v;
-        edge = 0;
+        vertexCount = v;
+        edgeCount = 0;
 
-        for(int i=0; i<vertex; i++){
+        for(int i=0; i<vertexCount; i++){
             adjList.push_back({}); // inserts V ammount of empty vector
         }
     }
@@ -19,11 +19,11 @@ struct graph{
 
         adjList[vertex1].push_back(vertex2);
         adjList[vertex2].push_back(vertex1);
-        edge++;
+        edgeCount++;
     }
 
     void dfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         stack<long> st;
 
         st.push(start);
@@ -39,15 +39,15 @@ struct graph{
                 visited[temp] = true;
             }
 
-            for(auto it:adjList[temp]){
-                if (!visited[it])
-                    st.push(it);
+            for(auto vertex:adjList[temp]){
+                if (!visited[vertex])
+                    st.push(vertex);
             }
         }
     }
 
     void bfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         queue<long> q;
 
         q.push(start);
@@ -58,11 +58,11 @@ struct graph{
             long temp = q.front();
             q.pop();
 
-            for(auto it:adjList[temp]){
-                if (!visited[it]){
-                    q.push(it);
-                    visited[it] = true;
-                    result.push_back(it);
+            for(auto vertex:adjList[temp]){
+                if (!visited[vertex]){
+                    q.push(vertex);
+                    visited[vertex] = true;
+                    result.push_back(vertex);
                 }
             }
         }

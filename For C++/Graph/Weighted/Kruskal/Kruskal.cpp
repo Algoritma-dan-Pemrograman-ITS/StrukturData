@@ -2,15 +2,15 @@
 using namespace std;
 
 struct graph{
-    long vertex, edge;
+    long vertexCount, edgeCount;
     vector<vector<pair<long, long>>> adjList;
     vector<pair<long, pair<long, long>>> edgeList;
     
     void init(long v){
-        vertex = v;
-        edge = 0;
+        vertexCount = v;
+        edgeCount = 0;
 
-        for(int i=0; i<vertex; i++){
+        for(int i=0; i<vertexCount; i++){
             adjList.push_back({}); // inserts V ammount of empty vector
         }
     }
@@ -22,11 +22,11 @@ struct graph{
         adjList[vertex2].push_back(make_pair(vertex1, weight));
 
         edgeList.push_back(make_pair(weight, make_pair(vertex1, vertex2)));
-        edge++;
+        edgeCount++;
     }
 
     void dfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         stack<long> st;
 
         st.push(start);
@@ -42,15 +42,15 @@ struct graph{
                 visited[temp] = true;
             }
 
-            for(auto it:adjList[temp]){
-                if (!visited[it.first])
-                    st.push(it.first);
+            for(auto vertex:adjList[temp]){
+                if (!visited[vertex.first])
+                    st.push(vertex.first);
             }
         }
     }
 
     void bfs(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         queue<long> q;
 
         q.push(start);
@@ -61,24 +61,25 @@ struct graph{
             long temp = q.front();
             q.pop();
 
-            for(auto it:adjList[temp]){
-                if (!visited[it.first]){
-                    q.push(it.first);
-                    visited[it.first] = true;
-                    result.push_back(it.first);
+            for(auto vertex:adjList[temp]){
+                if (!visited[vertex.first]){
+                    q.push(vertex.first);
+                    visited[vertex.first] = true;
+                    result.push_back(vertex.first);
                 }
             }
         }
     }
 
     void dijkstra(vector<long> &result, long start){
-        vector<bool> visited(vertex, false);
+        vector<bool> visited(vertexCount, false);
         priority_queue <pair<long, long>, 
                         vector <pair<long, long>>, 
                         greater <pair<long, long>> > pq;
-        result = vector<long>(vertex, -1);
-        result[start] = 0;
+        result = vector<long>(vertexCount, LONG_MAX);
+        
         pq.push(make_pair(0, start));
+        result[start] = 0;
 
         while(!pq.empty()){
             auto temp = pq.top();
@@ -88,13 +89,13 @@ struct graph{
 
             visited[temp.second] = true;
 
-            for(auto it:adjList[temp.second]){
-                long nextVertex = it.first;
-                long weight = it.second;
+            for(auto vertex:adjList[temp.second]){
+                long nextVertex = vertex.first;
+                long weight = vertex.second;
 
-                if(temp.first + weight < result[nextVertex] || result[nextVertex] == -1) {
+                if(temp.first + weight < result[nextVertex]) {
                     result[nextVertex] = temp.first + weight;
-                    pq.push({result[nextVertex], nextVertex});
+                    pq.push(make_pair(result[nextVertex], nextVertex));
                 }
             }
         }
@@ -112,17 +113,17 @@ struct graph{
 
     void kruskal(vector<pair<long, pair<long, long>>> &result){
         vector<long> parent;
-        for(int i=0; i<vertex; i++) parent.push_back(i);
+        for(int i=0; i<vertexCount; i++) parent.push_back(i);
 
         sort(edgeList.begin(), edgeList.end());
         
-        for(auto it:edgeList){
-            long vertex1 = it.second.first;
-            long vertex2 = it.second.second;
+        for(auto edge:edgeList){
+            long vertex1 = edge.second.first;
+            long vertex2 = edge.second.second;
             if(find_parent(parent, vertex1) != find_parent(parent, vertex2)){
-                result.push_back(it);
+                result.push_back(edge);
                 union_set(parent, vertex1, vertex2);
-                if(result.size() == vertex-1) return;
+                if(result.size() == vertexCount-1) return;
             }
         }
     }
