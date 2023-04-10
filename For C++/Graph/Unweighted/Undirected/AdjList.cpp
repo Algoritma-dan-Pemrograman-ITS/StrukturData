@@ -3,7 +3,7 @@ using namespace std;
 
 struct graph{
     long vertexCount, edgeCount;
-    vector<vector<long>> adjList;
+    vector<set<long>> adjList;
     
     void init(long v){
         vertexCount = v;
@@ -15,10 +15,8 @@ struct graph{
     }
 
     void add_edge(long vertex1, long vertex2){
-        if(find(adjList[vertex1].begin(), adjList[vertex1].end(), vertex2) != adjList[vertex1].end()) return; // check if vertex already inserted
-
-        adjList[vertex1].push_back(vertex2);
-        adjList[vertex2].push_back(vertex1);
+        adjList[vertex1].insert(vertex2);
+        adjList[vertex2].insert(vertex1);
         edgeCount++;
     }
 

@@ -3,21 +3,19 @@ using namespace std;
 
 struct graph{
     long vertexCount, edgeCount;
-    vector<vector<long>> adjList;
+    vector<set<long>> adjList;
     
     void init(long v){
         vertexCount = v;
         edgeCount = 0;
 
         for(int i=0; i<vertexCount; i++){
-            adjList.push_back({}); // inserts V ammount of empty vector
+            adjList.push_back({}); // inserts V ammount of empty set
         }
     }
 
     void add_edge(long vertex1, long vertex2){
-        if(find(adjList[vertex1].begin(), adjList[vertex1].end(), vertex2) != adjList[vertex1].end()) return; // check if vertex already inserted
-
-        adjList[vertex1].push_back(vertex2);
+        adjList[vertex1].insert(vertex2);
         edgeCount++;
     }
 
