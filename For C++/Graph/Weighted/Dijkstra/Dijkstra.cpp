@@ -3,7 +3,7 @@ using namespace std;
 
 struct graph{
     long vertexCount, edgeCount;
-    vector<map<long, long>> adjList;
+    vector<vector<pair<long, long>>> adjList;
     
     void init(long v){
         vertexCount = v;
@@ -15,8 +15,8 @@ struct graph{
     }
 
     void add_edge(long vertex1, long vertex2, long weight){
-        adjList[vertex1].insert(make_pair(vertex2, weight));
-        adjList[vertex2].insert(make_pair(vertex1, weight));
+        adjList[vertex1].push_back(make_pair(vertex2, weight));
+        adjList[vertex2].push_back(make_pair(vertex1, weight));
         edgeCount++;
     }
 
@@ -80,17 +80,17 @@ struct graph{
             auto temp = pq.top();
             pq.pop();
 
-            if(visited[temp.second]) continue;
-
             visited[temp.second] = true;
 
             for(auto vertex:adjList[temp.second]){
                 long nextVertex = vertex.first;
                 long weight = vertex.second;
 
-                if(temp.first + weight < result[nextVertex]) {
-                    result[nextVertex] = temp.first + weight;
-                    pq.push(make_pair(result[nextVertex], nextVertex));
+                if(!visited[nextVertex]){
+                    if(temp.first + weight < result[nextVertex]) {
+                        result[nextVertex] = temp.first + weight;
+                        pq.push(make_pair(result[nextVertex], nextVertex));
+                    }
                 }
             }
         }
@@ -107,12 +107,12 @@ int main(){
     g.add_edge(3, 4, 1);
     g.add_edge(3, 2, 5);
 
-    vector<long> dijkstra;
+    vector<long> dijkstra_result;
 
-    g.dijkstra(dijkstra, 0);
+    g.dijkstra(dijkstra_result, 0);
 
-    for(int i=0; i<dijkstra.size(); i++){
-        cout << i << " " << dijkstra[i] << endl;
+    for(int i=0; i<dijkstra_result.size(); i++){
+        cout << i << " " << dijkstra_result[i] << endl;
     }
 
     return 0;

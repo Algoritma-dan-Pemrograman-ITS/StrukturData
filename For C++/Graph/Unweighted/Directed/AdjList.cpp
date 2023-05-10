@@ -3,19 +3,19 @@ using namespace std;
 
 struct graph{
     long vertexCount, edgeCount;
-    vector<set<long>> adjList;
+    vector<vector<long>> adjList;
     
     void init(long v){
         vertexCount = v;
         edgeCount = 0;
 
         for(int i=0; i<vertexCount; i++){
-            adjList.push_back({}); // inserts V ammount of empty set
+            adjList.push_back({}); // inserts V ammount of empty vector
         }
     }
 
     void add_edge(long vertex1, long vertex2){
-        adjList[vertex1].insert(vertex2);
+        adjList[vertex1].push_back(vertex2);
         edgeCount++;
     }
 
@@ -75,17 +75,17 @@ int main(){
     g.add_edge(1, 3);
     g.add_edge(1, 4);
 
-    vector<long> dfs, bfs;
-    g.dfs(dfs, 0);
+    vector<long> dfs_result, bfs_result;
+    g.dfs(dfs_result, 0);
 
-    for(auto it:dfs){
+    for(auto it:dfs_result){
         cout << it << " ";
     }
     cout << endl;
 
-    g.bfs(bfs, 0);
+    g.bfs(bfs_result, 0);
 
-    for(auto it:bfs){
+    for(auto it:bfs_result){
         cout << it << " ";
     }
     cout << endl;
