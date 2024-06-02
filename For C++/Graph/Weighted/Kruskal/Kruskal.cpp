@@ -131,7 +131,7 @@ struct graph
         int parent2 = find_parent(parent, vertex2);
 
         if (parent1 != parent2)
-            parent[vertex2] = parent[vertex1];
+            parent[parent2] = parent1;
     }
 
     void kruskal(vector<pair<long, pair<long, long>>> &result)
